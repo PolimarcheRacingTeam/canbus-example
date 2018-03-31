@@ -60,7 +60,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
-#define USE_PRINTF 1
+#define USE_PRINTF 0 //Deve esse 0 se si usa RUN, può essere 1 solo in Debug
 extern void initialise_monitor_handles(void);
 #if !USE_PRINTF
 #define printf(fmt, ...) ;
