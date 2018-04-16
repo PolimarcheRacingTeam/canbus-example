@@ -60,7 +60,7 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
-#define USE_PRINTF 0 //Deve esse 0 se si usa RUN, può essere 1 solo in Debug
+#define USE_PRINTF 0 //Deve essere 0 se si usa RUN, può essere 1 solo in Debug
 extern void initialise_monitor_handles(void);
 #if !USE_PRINTF
 #define printf(fmt, ...) ;
@@ -212,7 +212,7 @@ void _Error_Handler(char *file, int line)
  * @retval None
  */
 void assert_failed(uint8_t* file, uint32_t line)
-{
+{ 
 	/* USER CODE BEGIN 6 */
 	/* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

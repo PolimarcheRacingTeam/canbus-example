@@ -1,9 +1,11 @@
 #MicroXplorer Configuration settings - do not modify
+CAN.ABOM=ENABLE
 CAN.BS1=CAN_BS1_7TQ
 CAN.CalculateTimeQuantum=111.11111111111111
-CAN.IPParameters=CalculateTimeQuantum,Prescaler,BS1,SJW
+CAN.IPParameters=CalculateTimeQuantum,Prescaler,BS1,SJW,ABOM,TXFP
 CAN.Prescaler=4
 CAN.SJW=CAN_SJW_1TQ
+CAN.TXFP=ENABLE
 File.Version=6
 KeepUserPlacement=true
 Mcu.Family=STM32F3
