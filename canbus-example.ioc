@@ -33,6 +33,7 @@ Mcu.UserName=STM32F303K8Tx
 MxCube.Version=4.25.0
 MxDb.Version=DB.4.0.250
 NVIC.BusFault_IRQn=true\:0\:0\:false\:false\:false\:false
+NVIC.CAN_TX_IRQn=true\:0\:0\:false\:false\:true\:true
 NVIC.DebugMonitor_IRQn=true\:0\:0\:false\:false\:false\:false
 NVIC.HardFault_IRQn=true\:0\:0\:false\:false\:false\:false
 NVIC.MemoryManagement_IRQn=true\:0\:0\:false\:false\:false\:false

@@ -6,7 +6,7 @@
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether
+  * USER CODE END. Other portions of this file, whether 
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
@@ -85,8 +85,8 @@ void HAL_CAN_MspInit(CAN_HandleTypeDef* canHandle)
   /* USER CODE END CAN_MspInit 0 */
     /* CAN clock enable */
     __HAL_RCC_CAN1_CLK_ENABLE();
-
-    /**CAN GPIO Configuration
+  
+    /**CAN GPIO Configuration    
     PA11     ------> CAN_RX
     PA12     ------> CAN_TX 
     */
@@ -97,6 +97,9 @@ void HAL_CAN_MspInit(CAN_HandleTypeDef* canHandle)
     GPIO_InitStruct.Alternate = GPIO_AF9_CAN;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+    /* CAN interrupt Init */
+    HAL_NVIC_SetPriority(CAN_TX_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(CAN_TX_IRQn);
   /* USER CODE BEGIN CAN_MspInit 1 */
 
   /* USER CODE END CAN_MspInit 1 */
@@ -113,13 +116,15 @@ void HAL_CAN_MspDeInit(CAN_HandleTypeDef* canHandle)
   /* USER CODE END CAN_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_CAN1_CLK_DISABLE();
-
-    /**CAN GPIO Configuration
+  
+    /**CAN GPIO Configuration    
     PA11     ------> CAN_RX
     PA12     ------> CAN_TX 
     */
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_11|GPIO_PIN_12);
 
+    /* CAN interrupt Deinit */
+    HAL_NVIC_DisableIRQ(CAN_TX_IRQn);
   /* USER CODE BEGIN CAN_MspDeInit 1 */
 
   /* USER CODE END CAN_MspDeInit 1 */
@@ -134,7 +139,7 @@ void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan){
 }
 
 void HAL_CAN_TxCpltCallback(CAN_HandleTypeDef *hcan){
-	printf("can txcplt callback\n");
+	//printf("can txcplt callback\n");
 }
 
 //MEMENTO: standard ID is 11 bits (fits in 3 hex digits with MSD < 8)

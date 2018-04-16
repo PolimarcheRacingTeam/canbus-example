@@ -62,6 +62,8 @@ extern void _Error_Handler(char *, int);
 void MX_CAN_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+void HAL_CAN_TxCpltCallback(CAN_HandleTypeDef *hcan);
+void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan);
 
 void setupCANfilter();
 
