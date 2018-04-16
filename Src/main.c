@@ -44,7 +44,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#include <string.h> //per usare memcpy
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -105,40 +105,77 @@ int main(void)
   MX_USART2_UART_Init();
   MX_CAN_Init();
   /* USER CODE BEGIN 2 */
+
+	// per usare printf ...
 	initialise_monitor_handles();
+
 	printf("CAN example:\n");
 
+	//definisco lunghezza dei miei pacchetti
+	int dlc = 1;
+
+	//dati da trasmettere
+	uint64_t payload = 0xDEADBEEFDEADBEEF;
+
+	// variabile per eventuali codici errore
 	HAL_StatusTypeDef canret;
+
+	// struct messaggio da trasmettere
 	CanTxMsgTypeDef canmsg;
-	canmsg.StdId = 0x100;
+
+	//passiamo alla HAL un puntatore al nostro messaggio.
+	hcan.pTxMsg = &canmsg;
+
+	// impostiamo il messaggio
+	// IDE definisce la lunghezza dell'identificatore (std-11bit vs ext-29bit)
 	canmsg.IDE = CAN_ID_STD;
 	canmsg.RTR = CAN_RTR_DATA;
 
-	hcan.pTxMsg = &canmsg;
+	// DLC definisce la lunghezza del pacchetto in Byte: min=0, max=8
+	canmsg.DLC = dlc;
 
+	//manderemo 100 messaggi, senza che creiamo un nuovo struct e passiamo il
+	// puntatore ogni volta è possibile modificare lo stesso e chiederne l'invio
 	for (int i = 0; i<100; i++){
-		canmsg.DLC = 1;
+
+		// scegliamo id per il pacchetto (in questo esempio ogni messaggio ha
+		// l'id del precedente decrementato di 1)
 		canmsg.StdId = 100-i;
-		canmsg.Data[0] = i;
+
+		memcpy(canmsg.Data, (void*)&payload,dlc);
+
+		// chiediamo la tramsissione del messaggio di cui abbiamo fornito il
+		// puntatore in precendenza
 		canret = HAL_CAN_Transmit_IT(&hcan);
-		HAL_Delay(1);
+
+		//attesa di 1 millisecondo ogni 3 invii
+		if (!((i+1)%3)) HAL_Delay(0);
+
+		//loggando con "candump can0 -td" su raspberry si nota che i pacchetti
+		//arrivano a circa 80 uS di distanza se inviati insieme
+		//spesso di meno, anche a 30 uS, ma mai più di 100 uS
+		//le fluttuazioni sono probabilmente dovute a linux
+
+		// se la funzione fallisce probabilmente abbiamo chiesto troppe
+		// trasmissioni in troppo poco tempo, "cassetta delle lettere piena" o
+		// "coda piena", dato che al massimo si possono accodare 3 messaggi.
+		// non c'è stato tempo per sbrogliare tutte le richieste, forse il bus
+		// è troppo impegnato con messaggi di priorità superiore (id inferiore)
 		if (canret) printf("canret = %d\n",canret);
 
 	}
 
-	while(1){
-		HAL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
-		HAL_Delay(1000);
-	}
-
-
+	//configura i filtri al sorgente di questa funzione
 	setupCANfilter();
-	int flag = 0;
 
+	int flag = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+	//loop di blink a 10Hz, il led smette/riprende a lampeggiare ogni volta che
+	// si riceve il pacchetto con id 0x100
 	while (1)
 	{
 		canret = HAL_CAN_Receive(&hcan,CAN_FIFO0, 0);
