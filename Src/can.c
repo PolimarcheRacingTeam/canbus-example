@@ -128,6 +128,15 @@ void HAL_CAN_MspDeInit(CAN_HandleTypeDef* canHandle)
 
 /* USER CODE BEGIN 1 */
 
+
+void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan){
+	printf("can error callback\n");
+}
+
+void HAL_CAN_TxCpltCallback(CAN_HandleTypeDef *hcan){
+	printf("can txcplt callback\n");
+}
+
 //MEMENTO: standard ID is 11 bits (fits in 3 hex digits with MSD < 8)
 //e non ti scordare che sti infami vogliono l'ID allineato a sx...
 //per allineare a sx un numero a 11 bit in un segmento da 2 byte ci vuole
