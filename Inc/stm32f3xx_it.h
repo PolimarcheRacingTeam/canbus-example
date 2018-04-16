@@ -49,6 +49,8 @@
 
 void SysTick_Handler(void);
 void CAN_TX_IRQHandler(void);
+void CAN_RX0_IRQHandler(void);
+void CAN_RX1_IRQHandler(void);
 
 #ifdef __cplusplus
 }
