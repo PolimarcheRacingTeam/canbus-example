@@ -51,7 +51,7 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+int flag = 1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -70,6 +70,12 @@ extern void initialise_monitor_handles(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+
+void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcanparam){
+	flag=!flag;
+	HAL_CAN_Receive_IT(&hcan,CAN_FIFO0);
+
+}
 
 /* USER CODE END 0 */
 
@@ -112,7 +118,7 @@ int main(void)
 	printf("CAN example:\n");
 
 	//definisco lunghezza dei miei pacchetti
-	int dlc = 1;
+	int dlc = 8;
 
 	//dati da trasmettere
 	uint64_t payload = 0xDEADBEEFDEADBEEF;
@@ -142,6 +148,8 @@ int main(void)
 		// l'id del precedente decrementato di 1)
 		canmsg.StdId = 100-i;
 
+		//metto i dati nel pacchetto (anche se sono sempre gli stessi in questo
+		//esempio e potrei farne a meno di ripeterlo)
 		memcpy(canmsg.Data, (void*)&payload,dlc);
 
 		// chiediamo la tramsissione del messaggio di cui abbiamo fornito il
@@ -168,18 +176,16 @@ int main(void)
 	//configura i filtri al sorgente di questa funzione
 	setupCANfilter();
 
-	int flag = 0;
+	canret = HAL_CAN_Receive_IT(&hcan,CAN_FIFO0);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
 	//loop di blink a 10Hz, il led smette/riprende a lampeggiare ogni volta che
-	// si riceve il pacchetto con id 0x100
+	// si riceve il pacchetto che soddisfa uno dei filtri
 	while (1)
 	{
-		canret = HAL_CAN_Receive(&hcan,CAN_FIFO0, 0);
-		if(canret != HAL_TIMEOUT && hcan.pRxMsg->StdId==0x100) flag = !flag;
 		HAL_Delay(100);
 		if (flag) HAL_GPIO_TogglePin(LD3_GPIO_Port,LD3_Pin);
 

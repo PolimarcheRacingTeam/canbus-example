@@ -158,13 +158,22 @@ void setupCANfilter(){
 	hcan.pRxMsg = &RxMessage;
 	filt.BankNumber = 0;
 	filt.FilterNumber = 0;
-	filt.FilterScale = CAN_FILTERSCALE_32BIT;
+	filt.FilterScale = CAN_FILTERSCALE_16BIT;
 	filt.FilterActivation = ENABLE;
 	filt.FilterFIFOAssignment = CAN_FILTER_FIFO0;
-	filt.FilterIdHigh		= 0x000 << 5;
-	filt.FilterIdLow 		= 0x000 << 5;
-	filt.FilterMaskIdHigh = 0x000 << 5;
-	filt.FilterMaskIdLow	= 0x000 << 5;
+
+	filt.FilterIdHigh		= 0x100 << 5;
+	filt.FilterMaskIdHigh 	= 0x700 << 5; //sarebbe 0b11100000000
+
+
+	filt.FilterIdLow 		= 0x200 << 5;
+	filt.FilterMaskIdLow	= 0x700 << 5; //sarebbe 0b11100000000
+
+	//il filtro sopra configurato permette il passaggio ai paccheti in base ai
+	//3 bit più a sinistra (più significativi, MSB) cioè quelli che nella
+	//mask valgono 1
+	//il filtro high fa passare solo se i primi 3 bit sono 001
+	//il filtro low se sono 010
 
 	filt.FilterMode = CAN_FILTERMODE_IDMASK;
 
