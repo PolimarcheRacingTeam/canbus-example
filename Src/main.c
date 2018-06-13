@@ -70,10 +70,12 @@ extern void initialise_monitor_handles(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
-void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcanparam){
+int x=0;
+void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan){
 	flag=!flag;
-	HAL_CAN_Receive_IT(&hcan,CAN_FIFO0);
+	//printf("ricevuto\n");
+	x++;
+	HAL_CAN_Receive_IT(hcan,CAN_FIFO0);
 
 }
 
@@ -146,7 +148,7 @@ int main(void)
 
 		// scegliamo id per il pacchetto (in questo esempio ogni messaggio ha
 		// l'id del precedente decrementato di 1)
-		canmsg.StdId = 100-i;
+		canmsg.StdId = 0x100;
 
 		//metto i dati nel pacchetto (anche se sono sempre gli stessi in questo
 		//esempio e potrei farne a meno di ripeterlo)
@@ -157,7 +159,7 @@ int main(void)
 		canret = HAL_CAN_Transmit_IT(&hcan);
 
 		//attesa di 1 millisecondo ogni 3 invii
-		if (!((i+1)%3)) HAL_Delay(0);
+		 HAL_Delay(10);
 
 		//loggando con "candump can0 -td" su raspberry si nota che i pacchetti
 		//arrivano a circa 80 uS di distanza se inviati insieme

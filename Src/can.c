@@ -141,7 +141,9 @@ void HAL_CAN_MspDeInit(CAN_HandleTypeDef* canHandle)
 
 
 void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan){
-	printf("can error callback\n");
+
+	printf("can error callback");
+	printf("%ld\n", hcan->ErrorCode);
 }
 
 void HAL_CAN_TxCpltCallback(CAN_HandleTypeDef *hcan){
@@ -163,7 +165,8 @@ void setupCANfilter(){
 	filt.FilterFIFOAssignment = CAN_FILTER_FIFO0;
 
 	filt.FilterIdHigh		= 0x100 << 5;
-	filt.FilterMaskIdHigh 	= 0x700 << 5; //sarebbe 0b11100000000
+	filt.FilterMaskIdHigh 	= 0x000 << 5; //sarebbe 0b11100000000
+	//filt.FilterMaskIdHigh 	= 0x700 << 5; //sarebbe 0b11100000000
 
 
 	filt.FilterIdLow 		= 0x200 << 5;
