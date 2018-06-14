@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-<ProjectName>/Users/Seb/polimarche-git/canbus-example/\canbus-example</ProjectName>
+<ProjectName>C:\Users\Lamponi Walter\Desktop\canbus-example\\canbus-example</ProjectName>
 <ProjectNature>C</ProjectNature> 
-<CMSIS>../Drivers/CMSIS</CMSIS>
-<HAL_Driver>/Users/Seb/STM32Cube/Repository//STM32Cube_FW_F3_V1.9.0/Drivers/CMSIS</HAL_Driver>
+<CMSIS>..\Drivers\CMSIS</CMSIS>
+<HAL_Driver>C:\Users\Lamponi Walter\STM32Cube\Repository\STM32Cube_FW_F3_V1.9.0\Drivers\CMSIS</HAL_Driver>
 <Toolchain>SW4STM32</Toolchain>
 <Version>0</Version>
 
@@ -44,8 +44,8 @@
 	    	<include></include>
     </Aincludes>
     <Cdefines>
-        <define>__weak=&quot;__attribute__((weak))&quot;</define>
-        <define>__packed=&quot;__attribute__((__packed__))&quot;</define>
+        <define>__weak=__attribute__((weak))</define>
+        <define>__packed=__attribute__((__packed__))</define>
     </Cdefines>
     <definestoremove>
         <Adefines>
@@ -58,11 +58,12 @@
     </definestoremove>
     
 	<Cincludes>
-	   <include>../Inc</include>
-	   <include>../Drivers/STM32F3xx_HAL_Driver/Inc</include>
-	   <include>../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy</include>
-	   <include>../Drivers/CMSIS/Device/ST/STM32F3xx/Include</include>
-	   <include>../Drivers/CMSIS/Include</include>
+	   <include>..\Inc</include>
+	   <include>..\Drivers\STM32F3xx_HAL_Driver\Inc</include>
+	   <include>..\Drivers\STM32F3xx_HAL_Driver\Inc\Legacy</include>
+	   <include>..\Drivers\CMSIS\Device\ST\STM32F3xx\Include</include>
+	   <include>..\Middlewares\Third_Party\FatFs\src</include>
+	   <include>..\Drivers\CMSIS\Include</include>
 
     </Cincludes>
       </config>
@@ -81,6 +82,9 @@
 		    	<sourceEntry>
 		    		<name>Drivers</name>
 		    	</sourceEntry>
+		    		<sourceEntry>
+		    			<name>Middlewares</name>
+		    		</sourceEntry>
 		    </sourceEntries>
 
 </Project>
