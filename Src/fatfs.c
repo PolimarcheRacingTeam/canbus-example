@@ -54,7 +54,7 @@ FATFS USERFatFS;    /* File system object for USER logical drive */
 FIL USERFile;       /* File object for USER */
 
 /* USER CODE BEGIN Variables */
-
+#define USER_Driver SD_Driver
 /* USER CODE END Variables */    
 
 void MX_FATFS_Init(void) 

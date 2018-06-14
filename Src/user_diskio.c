@@ -167,6 +167,7 @@ DRESULT USER_write (
 )
 { 
   /* USER CODE BEGIN WRITE */
+
   /* USER CODE HERE */
     return RES_OK;
   /* USER CODE END WRITE */
