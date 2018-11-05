@@ -80,7 +80,10 @@
 	   <include>../Drivers/STM32F3xx_HAL_Driver/Inc</include>
 	   <include>../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy</include>
 	   <include>../Drivers/CMSIS/Device/ST/STM32F3xx/Include</include>
+<<<<<<< HEAD
 	   <include>../Middlewares/Third_Party/FatFs/src</include>
+=======
+>>>>>>> parent of 15a308a... cube aggiunta spi + fatfs
 	   <include>../Drivers/CMSIS/Include</include>
 
     </Cincludes>
@@ -100,9 +103,6 @@
 		    	<sourceEntry>
 		    		<name>Drivers</name>
 		    	</sourceEntry>
-		    		<sourceEntry>
-		    			<name>Middlewares</name>
-		    		</sourceEntry>
 		    </sourceEntries>
 
 </Project>
